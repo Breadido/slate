@@ -1794,13 +1794,17 @@ thethingy.SetupUI = (function(c)
 				togglefunction.Toggle = (function()
 					if toggled == false then
 						toggled = true
-						c.Callback(toggled)
+						task.spawn(function()
+							c.Callback(toggled)
+						end)
 						game:GetService("TweenService"):Create(ToggleCheckboxCheckmark_2, TweenInfo.new(0.1, Enum.EasingStyle.Quad), {ImageTransparency = 0}):Play()
 						game:GetService("TweenService"):Create(ToggleCheckbox_2, TweenInfo.new(0.1, Enum.EasingStyle.Quad), {BackgroundTransparency = 0}):Play()
 						--game:GetService("TweenService"):Create(parent.ToggleCheckbox, TweenInfo.new(0.25, Enum.EasingStyle.Quad), {BackgroundTransparency = 0}):Play()
 					else
 						toggled = false
-						c.Callback(toggled)
+						task.spawn(function()
+							c.Callback(toggled)
+						end)
 						game:GetService("TweenService"):Create(ToggleCheckboxCheckmark_2, TweenInfo.new(0.1, Enum.EasingStyle.Quad), {ImageTransparency = 1}):Play()
 						game:GetService("TweenService"):Create(ToggleCheckbox_2, TweenInfo.new(0.1, Enum.EasingStyle.Quad), {BackgroundTransparency = 1}):Play()
 					end
@@ -2676,35 +2680,38 @@ thethingy.SetupUI = (function(c)
 				end
 
 				ListInterfaceRefresh.MouseButton1Click:Connect(function()
+					local refreshedtable = c.RefreshCallback()
+					table.sort(refreshedtable)
 					if c.Multi then
-						for i,v in next, c.RefreshCallback() do
-							local ListInterfaceMainScrollButton = Instance.new("TextButton")
-							local ListInterfaceMainScrollButton_2 = Instance.new("UIStroke")
-							local ListInterfaceMainScrollButton_3 = Instance.new("UICorner")
+						for i,v in next, refreshedtable do
+							local ListInterfaceMainScrollButton2 = Instance.new("TextButton")
+							local ListInterfaceMainScrollButton_22 = Instance.new("UIStroke")
+							local ListInterfaceMainScrollButton_32 = Instance.new("UICorner")
 
-							ListInterfaceMainScrollButton.Name = tostring(v)
-							ListInterfaceMainScrollButton.Parent = ListInterfaceMainScroll
-							ListInterfaceMainScrollButton.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-							ListInterfaceMainScrollButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
-							ListInterfaceMainScrollButton.BorderSizePixel = 0
-							ListInterfaceMainScrollButton.Size = UDim2.new(1, -2, 0, 30)
-							ListInterfaceMainScrollButton.AutoButtonColor = false
-							ListInterfaceMainScrollButton.Font = Enum.Font.SourceSans
-							ListInterfaceMainScrollButton.Text = tostring(v)
-							ListInterfaceMainScrollButton.TextColor3 = Color3.fromRGB(211, 211, 211)
-							ListInterfaceMainScrollButton.TextSize = 14.000
+							ListInterfaceMainScrollButton2.Name = tostring(v)
+							ListInterfaceMainScrollButton2.Parent = ListInterfaceMainScroll
+							ListInterfaceMainScrollButton2.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+							ListInterfaceMainScrollButton2.BorderColor3 = Color3.fromRGB(0, 0, 0)
+							ListInterfaceMainScrollButton2.BorderSizePixel = 0
+							ListInterfaceMainScrollButton2.Size = UDim2.new(1, -2, 0, 30)
+							ListInterfaceMainScrollButton2.AutoButtonColor = false
+							ListInterfaceMainScrollButton2.Font = Enum.Font.SourceSans
+							ListInterfaceMainScrollButton2.Text = tostring(v)
+							ListInterfaceMainScrollButton2.TextColor3 = Color3.fromRGB(211, 211, 211)
+							ListInterfaceMainScrollButton2.TextSize = 14.000
+							print(ListInterfaceMainScrollButton2.Text)
 
-							ListInterfaceMainScrollButton_2.Name = "ListInterfaceMainScrollButton"
-							ListInterfaceMainScrollButton_2.Parent = ListInterfaceMainScrollButton
-							ListInterfaceMainScrollButton_2.Color = Color3.fromRGB(48, 47, 48)
-							ListInterfaceMainScrollButton_2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+							ListInterfaceMainScrollButton_22.Name = "ListInterfaceMainScrollButton"
+							ListInterfaceMainScrollButton_22.Parent = ListInterfaceMainScrollButton2
+							ListInterfaceMainScrollButton_22.Color = Color3.fromRGB(48, 47, 48)
+							ListInterfaceMainScrollButton_22.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 
-							ListInterfaceMainScrollButton_3.CornerRadius = UDim.new(0, 5)
-							ListInterfaceMainScrollButton_3.Name = "ListInterfaceMainScrollButton"
-							ListInterfaceMainScrollButton_3.Parent = ListInterfaceMainScrollButton
+							ListInterfaceMainScrollButton_32.CornerRadius = UDim.new(0, 5)
+							ListInterfaceMainScrollButton_32.Name = "ListInterfaceMainScrollButton"
+							ListInterfaceMainScrollButton_32.Parent = ListInterfaceMainScrollButton2
 
 							local buttonisselected = false
-							ListInterfaceMainScrollButton.MouseButton1Click:Connect(function()
+							ListInterfaceMainScrollButton2.MouseButton1Click:Connect(function()
 								if table.find(multiselected, tostring(v)) then
 									table.remove(multiselected, table.find(multiselected, tostring(v)))
 								else
@@ -2718,7 +2725,7 @@ thethingy.SetupUI = (function(c)
 						multiselected = {}
 						ListInterfaceSelected.Text = "Selected: ".. table.concat(multiselected, ", ")
 					else
-						for i,v in next, c.RefreshCallback do
+						for i,v in next, refreshedtable do
 							local ListInterfaceMainScrollButton = Instance.new("TextButton")
 							local ListInterfaceMainScrollButton_2 = Instance.new("UIStroke")
 							local ListInterfaceMainScrollButton_3 = Instance.new("UICorner")
@@ -2751,7 +2758,14 @@ thethingy.SetupUI = (function(c)
 							end)
 						end
 					end
-
+					local seenednames = {}
+					for i,v in next, ListInterfaceMainScroll:GetChildren() do
+						if seenednames[v.Name] then
+							v:Destroy()
+						else
+							seenednames[v.Name] = true
+						end
+					end
 				end)
 
 				ListInterfaceApply.MouseButton1Click:Connect(function()
