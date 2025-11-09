@@ -3035,3 +3035,4 @@ thethingy.SetupUI = (function(c)
 	
 	return page
 end)
+return thethingy
