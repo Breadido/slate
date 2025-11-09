@@ -2467,7 +2467,7 @@ thethingy.SetupUI = (function(c)
 					CONFIG[NAMETAB][name] = c.Default
 				end
 				
-				if c.Multi and c.Default and type(c.Default) == "table" then
+				if c.Multi and c.Default and type(c.Default) == "table" and #c.Default >= 1 then
 					thethingy.CreateNotification(c.Name, "Selected: ".. table.concat(c.Default, ", "), 5)
 				elseif c.Multi == false and c.Default and type(c.Default) == "string" then
 					thethingy.CreateNotification(c.Name, "Selected: ".. tostring(c.Default), 5)
@@ -3035,4 +3035,3 @@ thethingy.SetupUI = (function(c)
 	
 	return page
 end)
-return thethingy
