@@ -2456,6 +2456,7 @@ thethingy.SetupUI = (function(c)
 				c.NotifyOnApply = c.NotifyOnApply or true
 				c.ApplyCallback = c.ApplyCallback or function(a) print(a) end
 				c.RefreshCallback = c.RefreshCallback or getplayerstable
+				c.HideRefreshButton = c.HideRefreshButton or false
 				
 				local selected = c.Default
 				local multiselected = type(c.Default) == "table" and c.Default or {}
@@ -2623,6 +2624,9 @@ thethingy.SetupUI = (function(c)
 				ListInterfaceRefresh.Text = "Refresh"
 				ListInterfaceRefresh.TextColor3 = Color3.fromRGB(255, 255, 255)
 				ListInterfaceRefresh.TextSize = 14.000
+				if c.HideRefreshButton then
+					ListInterfaceRefresh.Visible = false
+				end
 
 				ListInterfaceRefreshStroke.Name = "ListInterfaceRefreshStroke"
 				ListInterfaceRefreshStroke.Parent = ListInterfaceRefresh
@@ -2682,7 +2686,7 @@ thethingy.SetupUI = (function(c)
 				ListInterfaceSearch.BorderColor3 = Color3.fromRGB(0, 0, 0)
 				ListInterfaceSearch.BorderSizePixel = 0
 				ListInterfaceSearch.Position = UDim2.new(0, 5, 0, 5)
-				ListInterfaceSearch.Size = UDim2.new(1, -115, 0, 27)
+				ListInterfaceSearch.Size = UDim2.new(1, c.HideRefreshButton and -60 or -115, 0, 27)
 
 				ListInterfaceSearchStroke.Name = "ListInterfaceSearchStroke"
 				ListInterfaceSearchStroke.Parent = ListInterfaceSearch
@@ -3035,4 +3039,3 @@ thethingy.SetupUI = (function(c)
 	
 	return page
 end)
-return thethingy
