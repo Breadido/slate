@@ -2470,8 +2470,10 @@ thethingy.SetupUI = (function(c)
 				
 				if c.Multi and c.Default and type(c.Default) == "table" and #c.Default >= 1 then
 					thethingy.CreateNotification(c.Name, "Selected: ".. table.concat(c.Default, ", "), 5)
+					c.ApplyCallback(c.Default)
 				elseif c.Multi == false and c.Default and type(c.Default) == "string" then
 					thethingy.CreateNotification(c.Name, "Selected: ".. tostring(c.Default), 5)
+					c.ApplyCallback(c.Default)
 				end
 
 				local List = Instance.new("Frame")
