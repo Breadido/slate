@@ -1395,8 +1395,12 @@ thethingy.SetupUI = (function(c)
 		oldsize = ImageLabel.AbsoluteSize
 		game:GetService("TweenService"):Create(ImageLabel,TweenInfo.new(0.1,Enum.EasingStyle.Quad),{Size = UDim2.new(0,oldsize.X - 20,0, oldsize.Y - 20)}):Play()
 		game:GetService("TweenService"):Create(ImageLabel,TweenInfo.new(0.1,Enum.EasingStyle.Quad),{GroupTransparency = 1}):Play()
+		task.delay(0.1, function()
+			ImageLabel.Visible = false
+		end)
 	end)
 	local openui = (function()
+		ImageLabel.Visible = true
 		game:GetService("TweenService"):Create(ImageLabel,TweenInfo.new(0.1,Enum.EasingStyle.Quad),{Size = UDim2.new(0,oldsize.X,0, oldsize.Y)}):Play()
 		game:GetService("TweenService"):Create(ImageLabel,TweenInfo.new(0.1,Enum.EasingStyle.Quad),{GroupTransparency = 0}):Play()
 	end)
